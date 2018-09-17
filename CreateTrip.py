@@ -21,7 +21,7 @@ class TherapyMethod:      #药房的相关信息类
     def __init__(self, class_name, method_name, method_explain):
         self.class_name = class_name
         self.method_explain = method_explain
-        self.method_explain = method_explain
+        self.method_name = method_name
 
 
 def create_method_query():
@@ -31,17 +31,34 @@ def create_method_query():
     f.close()
     count = 0
     sum = data.__len__()
-    method_class_name = ""       #药房类别的名称
+    method_class_name = " "       #药房类别的名称
+    method_name = " "             #药房的名名称
+    method_explain = " "          #药房的注解
     for i in range(sum):
         str_temp = data[i]
-        if str_temp[-1] == "法":
-            str_query = re.finditer(r"\D", str_temp)
-            method_class_name = ""
-            for x in str_query:
-                method_class_name += x.group()    #此时生成药房的类别
-
-
-
+        str_temp = str_temp[:-1]
+        if str_temp[:3] != "同义词":
+            if str_temp[-1] == "法" and str_temp.split("，").__len__() == 1 and "．" not in str_temp:  # 大类的方法一般是 xxxx法,去除其中关某些其他冗余数据 观察结构
+                str_query = re.finditer(r"\D", str_temp)
+                str1 = ""
+                for x in str_query:
+                    if x.group() != "．" and x.group() != " ":
+                        str1 += x.group()  # 此时生成药房的类别
+                method_class_name = str1
+            else:
+                if str_temp.split("．").__len__() >= 2:  # 这个小数点不是在英文状态下的小数点
+                    str_query = re.finditer(r"\D", str_temp)
+                    str1 = ""
+                    for x in str_query:
+                        if str(x.group()) != '．' and x.group() != " ":
+                            str1 += x.group()
+                    # print(str1)
+                    method_name = str1
+                else:
+                    method_explain = str_temp
+                    therapy_methods = TherapyMethod(method_class_name, method_name, method_explain)
+                    methods.append(therapy_methods)
+    return methods
 
 
 def create_class():
@@ -119,6 +136,41 @@ def write_class_symptom():
     return True
 
 
+def write_therapy_method():
+    methods = create_method_query()
+    f = open("result/治法.txt", 'w', encoding="UTF-8")
+    for x in methods:
+        str_tem = x.class_name + " 包含 " + x.method_name + "\n"
+        f.write(str_tem)
+        print(str_tem)
+    f.close()
+    return True
+
+
+def write_therapy_range():       #药房的使用范围
+    methods = create_method_query()
+    f = open("result/适用范围.txt", "w", encoding="UTF-8")
+    for x in methods:
+        tem_query = x.method_explain.split("用于")
+        method_rang = tem_query[-1]
+        method_rang = method_rang[:-1]
+        tem_query = method_rang.split("治疗方法")
+        method_rang = tem_query[0]
+        method_rang = method_rang.split("治疗")[-1]
+        method_rang = method_rang.split("用")[-1]
+        if method_rang is not None and method_rang.__len__() >= 2:
+            if method_rang[-1] == "的" or method_rang[-1] == "等":
+                method_rang = method_rang[:-1]
+                str_tem = x.method_name + " 适用范围 " + method_rang + "\n"
+                f.write(str_tem)
+                print(str_tem)
+    f.close()
+    return True
+
+
+
 # write_class_tri()
 # write_class_reason()
 # write_class_symptom()
+# write_therapy_method()
+write_therapy_range()
