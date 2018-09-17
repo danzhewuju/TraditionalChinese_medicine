@@ -1,5 +1,5 @@
 #!usr/bin/python3
-
+import re
 
 class Illness:
     class_name = ""
@@ -69,5 +69,23 @@ def write_class_reason():               #构建了病因三元组 格式： 疾�
     return True
 
 
+def write_class_symptom():
+    ill = create_class()
+    f =open("result/症状三元组..txt", 'w', encoding="UTF-8")
+    for x in ill:
+        str_tem = x.illness_explain
+        str_query = str_tem.split('。')
+        if str_query.__len__() > 2:
+            str_symptom = str_query.pop(-2)
+            match_obj = re.search("以(.*)为", str_symptom)
+            if match_obj != None :
+                str_symptom = match_obj.group(1)
+            str_line = x.illness_name + " 症状 " + str_symptom + '\n'
+            f.write(str_line)
+            print(str_line)
+    f.close()
+    return True
+
 # write_class_tri()
-write_class_reason()
+# write_class_reason()
+write_class_symptom()

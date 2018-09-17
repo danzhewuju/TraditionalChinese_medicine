@@ -1,5 +1,5 @@
 #!usr/bin/python3
-
+import re
 
 class Illness:
     class_name = ""
@@ -19,7 +19,8 @@ class Illness:
 # str_test = str_test[start:]
 # print(str_tem)
 # print(str_test)
-str2 = "婚后女方正常，有正常性生活而两年不能生育为主要表现的肾系疾病。"
-print(str2.split('。'))
+str2 = "22以晶珠混浊，视力渐降，终至瞳神内呈圆形银白色翳障，视力障碍为主要表现的内障类疾病"
+match_obj = re.search("以(.*)为", str2)
+print(match_obj.groups())
 # print(str2.split().__len__())
 
