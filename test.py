@@ -1,5 +1,6 @@
 #!usr/bin/python3
 import os
+import re
 
 
 def replace_bracket(str_test):        #将中括号进行替换
@@ -46,10 +47,15 @@ def file_name(file_path):                                             #获取一
     return paths
 
 
+def remove_curves(str_test):                              #去除圆括号
+    str_tem = re.split(r"（.+）", str_test)
+    str_line = "".join(str_tem)
+    return str_line
+
+
 def test():
-    str_test = "./result\疾病\关系三元组.txt"
-    new_path = str_test[:-4] + "_second" + str_test[-4:]
-    print(new_path)
+    str_test = "转筋 症状 小腿或指、趾发作性筋肉剧痛、僵硬，屈伸不利"
+    print(remove_curves(str_test))
     return True
 
 
