@@ -240,8 +240,21 @@ def write_illness_symptom():   #证候的症状
     return True
 
 
+def run():
+    write_illness_symptom()
+    write_class_symptom()
+    write_therapy_effect()
+    write_therapy_range()
+    write_class_reason()
+    write_therapy_method()
+    write_class_tri()
+    write_illness_class()
+    return True
+
+
+run()
 #初步的数据预处理过程
-write_class_tri()
+# write_class_tri()
 # write_class_reason()
 # write_class_symptom()
 # write_therapy_method()
