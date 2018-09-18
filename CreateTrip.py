@@ -1,5 +1,6 @@
 #!usr/bin/python3
 import re
+                                #第一轮的数据处理收集
 
 
 class Illness:                   #疾病的相关信息类
@@ -121,7 +122,7 @@ def create_illness_class():                            #返回一个证候的全
 
 def write_class_tri():
     ill = create_class()
-    f = open("result/疾病/关系三元组.txt", 'w')
+    f = open("result/疾病/关系三元组.txt", 'w', encoding="UTF-8")
     for x in ill:
         str_tem = x.illness_name + " 类别 " + x.class_name + '\n'
         print(str_tem)
@@ -149,7 +150,7 @@ def write_class_reason():               #构建了病因三元组 格式： 疾�
 
 def write_class_symptom():
     ill = create_class()
-    f =open("result/疾病/症状三元组..txt", 'w', encoding="UTF-8")
+    f =open("result/疾病/症状三元组.txt", 'w', encoding="UTF-8")
     for x in ill:
         str_tem = x.illness_explain
         str_query = str_tem.split('。')
@@ -239,11 +240,12 @@ def write_illness_symptom():   #证候的症状
     return True
 
 
-# write_class_tri()
+#初步的数据预处理过程
+write_class_tri()
 # write_class_reason()
 # write_class_symptom()
 # write_therapy_method()
 # write_therapy_range()
 # write_therapy_effect()
 # write_illness_class()
-write_illness_symptom()
+# write_illness_symptom()
