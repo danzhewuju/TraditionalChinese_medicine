@@ -107,10 +107,12 @@ def remove_keyword(str_test):
 
 def remove_key_word():
     paths = file_name("result")
+    path_second = []
     for x in paths:                            #只获取第二部的处理结果，其余的不再获取
-        if "second" not in x:
-            paths.remove(x)
-    for x in paths:
+        if "second" in x:
+            path_second.append(x)
+    for x in path_second:
+        print("正在处理{}文件".format(x))
         str_q = x.split("_second")
         new_path = str_q[0] + "_thirdly" + str_q[1]
         f = open(x, "r", encoding="UTF-8")
@@ -121,7 +123,7 @@ def remove_key_word():
             str_q = line.split(" ")
             str_p1 = str_q[:-1]
             str_p2 = str_q[-1]
-            new_line = " ".join(str_p1) + " " + remove_keyword(str_p2) + "\n"
+            new_line = " ".join(str_p1) + " " + remove_keyword(str_p2)
             f.write(new_line)
         f.close()
     return True
