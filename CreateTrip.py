@@ -125,7 +125,7 @@ def write_class_tri():
     f = open("result/疾病/关系三元组_first.txt", 'w', encoding="UTF-8")
     for x in ill:
         str_tem = x.illness_name + " 类别 " + x.class_name + '\n'
-        print(str_tem)
+        # print(str_tem)
         f.write(str_tem)
     f.close()
     return True
@@ -141,7 +141,7 @@ def write_class_reason():               #构建了病因三元组 格式： 疾�
             str_test = str_tem[0]
             start = str_test.count("因")
             str_test = str_test[start:]
-            print(str_test)
+            # print(str_test)
             str_write = x.illness_name + " 病因 " + str_test + "\n"
             f.write(str_write)
     f.close()
@@ -161,7 +161,7 @@ def write_class_symptom():
                 str_symptom = match_obj.group(1)
             str_line = x.illness_name + " 症状 " + str_symptom + '\n'
             f.write(str_line)
-            print(str_line)
+            # print(str_line)
     f.close()
     return True
 
@@ -172,7 +172,7 @@ def write_therapy_method():
     for x in methods:
         str_tem = x.class_name + " 包含 " + x.method_name + "\n"
         f.write(str_tem)
-        print(str_tem)
+        # print(str_tem)
     f.close()
     return True
 
@@ -193,7 +193,7 @@ def write_therapy_range():       #药房的使用范围
                 method_rang = method_rang[:-1]
                 str_tem = x.method_name + " 适用范围 " + method_rang + "\n"
                 f.write(str_tem)
-                print(str_tem)
+                # print(str_tem)
     f.close()
     return True
 
@@ -234,13 +234,14 @@ def write_illness_symptom():   #证候的症状
             str_explain = str_explain[:-4]
         str_explain = str_explain.split("等")[0]
         str_tem = x.illness_name + " 症状特征 " + str_explain + "\n"
-        print(str_tem)
+        # print(str_tem)
         f.write(str_tem)
     f.close()
     return True
 
 
 def run():
+    print("文件处理过程......")
     write_illness_symptom()
     write_class_symptom()
     write_therapy_effect()
@@ -249,6 +250,7 @@ def run():
     write_therapy_method()
     write_class_tri()
     write_illness_class()
+    print("文件处理完成!")
     return True
 
 

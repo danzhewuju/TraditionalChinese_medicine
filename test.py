@@ -67,16 +67,49 @@ def remove_keyword(str_test):
     return str_test
 
 
+def word_split(str_test):
+    f = open("data/sample/split_word.txt", "r", encoding="UTF-8")
+    word_splits = f.readlines()
+    f.close()
+    split_query = []
+    result_query = []
+    result_query.append(str_test)
+    word_splits = [x for x in word_splits if x != "\n"]                                                #剔除掉之前记录下的多余空白符的位置
+    for index in range(word_splits.__len__()):
+        if word_splits[index][-1] == "\n":
+            word_splits[index] = word_splits[index][:-1]
+    #需要去除空白分割符
+    while result_query.__len__() != 0:
+        str_test = result_query.pop()
+        count = 0
+        for x in word_splits:
+            if x in str_test:
+                str_qt = str_test.split(x)
+                for s in str_qt:
+                    result_query.append(s)
+            else:
+                count += 1
+        if count == word_splits.__len__():
+            # print(str_test)
+            split_query.append(str_test)
+    split_query = sorted(set(split_query), key=split_query.index)     #删除列表中重复的元素
+    return split_query
+
+
 def test():
-    str_test = "转筋 症状 小腿或指、趾发作性筋肉剧痛、僵硬，屈伸症状不利"
-    str_q = str_test.split(" ")
-    str_p1 = str_q[:-1]
-    str_p2 = str_q[-1]
-    str_r = " ".join(str_p1) + " " + remove_keyword(str_p2)
-    print(str_r)
+    str_test = "脂瘤 类别 躯体痹、痿、瘤病类"
+    str_query = str_test.split(" ")
+    str_tem = " ".join(str_query[:-1])
+    str1 = word_split(str_query[-1])
+    for x in str1:
+        str_r = str_tem + " " + x
+        print(str_r)
+    return True
 
 
-test()
+# test()
+str_test = "胁痈 病因 多由肝胆火郁"
+print(str_test.split(" ").__len__())
 # f = open("result/治法_2/治法_second.txt", "w", encoding="UTF-8")
 # f.write("this is test writing!")
 # f.close()

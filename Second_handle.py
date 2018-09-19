@@ -4,6 +4,7 @@
 #主要是用于数据的第二次处理
 import os
 import re
+import CreateTrip
 
 
 def replace_bracket(str_test):        #将中括号进行替换
@@ -129,5 +130,72 @@ def remove_key_word():
     return True
 
 
-remove_bracket()
+def word_split(str_test):
+    f = open("data/sample/split_word.txt", "r", encoding="UTF-8")
+    word_splits = f.readlines()
+    f.close()
+    split_query = []
+    result_query = []
+    result_query.append(str_test)
+    word_splits = [x for x in word_splits if x != "\n"]                                                #剔除掉之前记录下的多余空白符的位置
+    for index in range(word_splits.__len__()):
+        if word_splits[index][-1] == "\n":
+            word_splits[index] = word_splits[index][:-1]
+    #需要去除空白分割符
+    while result_query.__len__() != 0:
+        str_test = result_query.pop()
+        count = 0
+        for x in word_splits:
+            if x in str_test:
+                str_qt = str_test.split(x)
+                for s in str_qt:
+                    result_query.append(s)
+            else:
+                count += 1
+        if count == word_splits.__len__():
+            # print(str_test)
+            split_query.append(str_test)
+    split_query = sorted(set(split_query), key=split_query.index)     #删除列表中重复的元素
+    return split_query
+
+
+def write_split_word():                                           #根据逗号句号进行分组
+    paths = file_name("result")
+    paths_thirdly = []
+    for path in paths:
+        if "thirdly" in path:
+            paths_thirdly.append(path)
+    for p in paths_thirdly:
+        print("正在处理{}文件".format(p))
+        f = open(p, "r", encoding="UTF-8")
+        data = f.readlines()
+        f.close()
+        path_query = p.split("_thirdly")
+        new_path = path_query[0] + "fourth" + path_query[1]
+        f = open(new_path, "w", encoding="UTF-8")
+        for line in data:
+            str_query = line.split(" ")
+            str_tem = " ".join(str_query[:-1])
+            str1 = word_split(str_query[-1])
+            for x in str1:
+                if x.__len__() >= 2:
+                    str_r = str_tem + " " + x
+                    if str_r[-1] != "\n":
+                        str_r = str_r + "\n"
+                    if str_r.split(" ").__len__() == 3:
+                        f.write(str_r)
+    f.close()
+    return True
+
+
+def run():
+    remove_bracket()
+    remove_key_word()
+    write_split_word()
+    return True
+
+
+# remove_bracket()
 # remove_key_word()
+# write_split_word()
+run()
