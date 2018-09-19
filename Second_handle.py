@@ -178,9 +178,7 @@ def write_split_word():                                           #根据逗号�
             str_tem = " ".join(str_query[:-1])
             str1 = word_split(str_query[-1])
             for x in str1:
-                if x.__len__() >= 2:
-                    if x.__len__() == 2:
-                        print(x)
+                if x.__len__() > 2:
                     str_r = str_tem + " " + x
                     if str_r[-1] != "\n":
                         str_r = str_r + "\n"
@@ -200,4 +198,5 @@ def run():
 # remove_bracket()
 # remove_key_word()
 # write_split_word()
+CreateTrip.run()
 run()
