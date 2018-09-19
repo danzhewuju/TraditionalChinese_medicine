@@ -171,7 +171,7 @@ def write_split_word():                                           #根据逗号�
         data = f.readlines()
         f.close()
         path_query = p.split("_thirdly")
-        new_path = path_query[0] + "fourth" + path_query[1]
+        new_path = path_query[0] + "_fourth" + path_query[1]
         f = open(new_path, "w", encoding="UTF-8")
         for line in data:
             str_query = line.split(" ")
@@ -179,6 +179,8 @@ def write_split_word():                                           #根据逗号�
             str1 = word_split(str_query[-1])
             for x in str1:
                 if x.__len__() >= 2:
+                    if x.__len__() == 2:
+                        print(x)
                     str_r = str_tem + " " + x
                     if str_r[-1] != "\n":
                         str_r = str_r + "\n"
