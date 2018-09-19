@@ -122,7 +122,7 @@ def create_illness_class():                            #返回一个证候的全
 
 def write_class_tri():
     ill = create_class()
-    f = open("result/疾病/关系三元组.txt", 'w', encoding="UTF-8")
+    f = open("result/疾病/关系三元组_first.txt", 'w', encoding="UTF-8")
     for x in ill:
         str_tem = x.illness_name + " 类别 " + x.class_name + '\n'
         print(str_tem)
@@ -133,7 +133,7 @@ def write_class_tri():
 
 def write_class_reason():               #构建了病因三元组 格式： 疾病名称 病因 疾病原因
     ill = create_class()
-    f = open("result/疾病/病因三元组.txt", 'w', encoding="UTF-8")
+    f = open("result/疾病/病因三元组_first.txt", 'w', encoding="UTF-8")
     for x in ill:
         str1 = x.illness_explain
         str_tem = str1.split("。")
@@ -150,7 +150,7 @@ def write_class_reason():               #构建了病因三元组 格式： 疾�
 
 def write_class_symptom():
     ill = create_class()
-    f =open("result/疾病/症状三元组.txt", 'w', encoding="UTF-8")
+    f =open("result/疾病/症状三元组_first.txt", 'w', encoding="UTF-8")
     for x in ill:
         str_tem = x.illness_explain
         str_query = str_tem.split('。')
@@ -168,7 +168,7 @@ def write_class_symptom():
 
 def write_therapy_method():
     methods = create_method_query()
-    f = open("result/治法/治法.txt", 'w', encoding="UTF-8")
+    f = open("result/治法/治法_first.txt", 'w', encoding="UTF-8")
     for x in methods:
         str_tem = x.class_name + " 包含 " + x.method_name + "\n"
         f.write(str_tem)
@@ -179,7 +179,7 @@ def write_therapy_method():
 
 def write_therapy_range():       #药房的使用范围
     methods = create_method_query()
-    f = open("result/治法/适用范围.txt", "w", encoding="UTF-8")
+    f = open("result/治法/适用范围_first.txt", "w", encoding="UTF-8")
     for x in methods:
         tem_query = x.method_explain.split("用于")                            #设计的提取方法  可能不是准确
         method_rang = tem_query[-1]
@@ -200,7 +200,7 @@ def write_therapy_range():       #药房的使用范围
 
 def write_therapy_effect():                                         #药房所具有的功效
     methods = create_method_query()
-    f = open("result/治法/作用.txt", "w", encoding="UTF-8")
+    f = open("result/治法/作用_first.txt", "w", encoding="UTF-8")
     for x in methods:
         str_tem = x.method_explain.split("，")[0].split("。")[0]
         if str_tem.__len__() > 2:
@@ -217,7 +217,7 @@ def write_therapy_effect():                                         #药房所�
 
 def write_illness_class():                            #证候的分类
     illness = create_illness_class()
-    f = open("result/证候/证候分类.txt", "w", encoding="UTF-8")
+    f = open("result/证候/证候分类_first.txt", "w", encoding="UTF-8")
     for x in illness:
         str_tem = x.illness_name + " 属于 " + x.class_name + "\n"
         f.write(str_tem)
@@ -227,7 +227,7 @@ def write_illness_class():                            #证候的分类
 
 def write_illness_symptom():   #证候的症状
     illness = create_illness_class()
-    f = open("result/证候/证候症状.txt", "w", encoding="UTF-8")
+    f = open("result/证候/证候症状_first.txt", "w", encoding="UTF-8")
     for x in illness:
         str_explain = x.illness_explain
         if str_explain.__len__() > 3 and str_explain[-4:-1] == "的证候":

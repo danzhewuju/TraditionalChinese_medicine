@@ -53,13 +53,32 @@ def remove_curves(str_test):                              #去除圆括号
     return str_line
 
 
+def remove_keyword(str_test):
+    f = open("data/sample/keyword.txt", "r", encoding="UTF-8")
+    keywords = f.readlines()
+    f.close()
+    for i in range(keywords.__len__()):                                    #去除掉每行的最后面的换行符
+        if keywords[i][-1] == '\n':
+            keywords[i] = keywords[i][:-1]
+    for word in keywords:
+        if word in str_test:
+            str_q = str_test.split(word)
+            str_test = "".join(str_q)
+    return str_test
+
+
 def test():
-    str_test = "转筋 症状 小腿或指、趾发作性筋肉剧痛、僵硬，屈伸不利"
-    print(remove_curves(str_test))
-    return True
+    str_test = "转筋 症状 小腿或指、趾发作性筋肉剧痛、僵硬，屈伸症状不利"
+    str_q = str_test.split(" ")
+    str_p1 = str_q[:-1]
+    str_p2 = str_q[-1]
+    str_r = " ".join(str_p1) + " " + remove_keyword(str_p2)
+    print(str_r)
 
 
 test()
-
-
+# f = open("result/治法_2/治法_second.txt", "w", encoding="UTF-8")
+# f.write("this is test writing!")
+# f.close()
+# print(os.path.exists("result"))
 

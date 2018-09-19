@@ -1,4 +1,6 @@
 #!usr/bin/python3
+
+
 #主要是用于数据的第二次处理
 import os
 import re
@@ -51,9 +53,9 @@ def file_name(file_path):                                             #获取一
         # print(dirs)
         # print(files)
         for x in files:
-            path = root + "\\" + x
+            path = root + "\\" + x                               #上级目录
             # print(path)
-            paths.append(path)
+            paths.append(path)                                   #全部路径
         # path = root + files
         # print("path:", path)
     return paths
@@ -65,25 +67,65 @@ def remove_curves(str_test):                              #去除圆括号
     return str_line
 
 
-def remove_bracket():     #主要的用途是中括号的处理 以及圆括号的处理
+def remove_bracket():                                        #主要的用途是中括号的处理 以及圆括号的处理
     paths = file_name("result")
     for p in paths:
-        new_path = p[:-4] + "_second" + p[-4:]
-        f = open(p, "r", encoding="UTF-8")
-        print(p)
+        if "first" in p:
+            str_t = p.split("_first")
+            str_p = "".join(str_t)
+            new_path = str_p[:-4] + "_second" + str_p[-4:]
+            f = open(p, "r", encoding="UTF-8")
+            print(p)
+            data = f.readlines()
+            f.close()
+            f = open(new_path, "w", encoding="UTF-8")
+            for line in data:
+                write_line = line
+                if ("［" in write_line or "[" in write_line) and ("］" in write_line or "]" in write_line):
+                    line_query = replace_bracket(write_line)
+                    for w in line_query:
+                        f.write(remove_curves(w))
+                else:
+                    f.write(remove_curves(write_line))
+            f.close()
+    return True
+
+
+def remove_keyword(str_test):
+    f = open("data/sample/keyword.txt", "r", encoding="UTF-8")
+    keywords = f.readlines()
+    f.close()
+    for i in range(keywords.__len__()):                                    #去除掉每行的最后面的换行符
+        if keywords[i][-1] == '\n':
+            keywords[i] = keywords[i][:-1]
+    for word in keywords:
+        if word in str_test:
+            str_q = str_test.split(word)
+            str_test = "".join(str_q)
+    return str_test
+
+
+def remove_key_word():
+    paths = file_name("result")
+    for x in paths:                            #只获取第二部的处理结果，其余的不再获取
+        if "second" not in x:
+            paths.remove(x)
+    for x in paths:
+        str_q = x.split("_second")
+        new_path = str_q[0] + "_thirdly" + str_q[1]
+        f = open(x, "r", encoding="UTF-8")
         data = f.readlines()
         f.close()
         f = open(new_path, "w", encoding="UTF-8")
         for line in data:
-            write_line = line
-            if "［" in write_line and "］" in write_line:
-                line_query = replace_bracket(write_line)
-                for w in line_query:
-                    f.write(remove_curves(w))
-            else:
-                f.write(remove_curves(write_line))
+            str_q = line.split(" ")
+            str_p1 = str_q[:-1]
+            str_p2 = str_q[-1]
+            new_line = " ".join(str_p1) + " " + remove_keyword(str_p2) + "\n"
+            f.write(new_line)
         f.close()
     return True
 
 
 remove_bracket()
+# remove_key_word()
