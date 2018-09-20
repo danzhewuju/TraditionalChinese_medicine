@@ -195,8 +195,36 @@ def run():
     return True
 
 
+def statistic():
+    map_a = {}
+    map_b = {}
+    paths = file_name("result")
+    paths = [p for p in paths if "fourth" in p]
+    print(paths)
+    data = []
+    for p in paths:
+        f = open(p, "r", encoding="UTF-8")
+        str_d = f.readlines()
+        f.close()
+        for str_t in str_d:
+            data.append(str_t)
+    count_tri = data.__len__()
+    for d in data:
+        str_q = d.split(" ")
+        str_a = str_q[0]
+        str_b = str_q[2]
+        if str_a not in map_a:
+            map_a[str_a] = 1
+        if str_b not in map_b:
+            map_b[str_b] = 1
+    count_ea = map_a.__len__()
+    count_eb = map_b.__len__()
+    return count_tri, count_ea, count_eb
+
+
 # remove_bracket()
 # remove_key_word()
 # write_split_word()
-CreateTrip.run()
-run()
+# CreateTrip.run()
+# run()
+print(statistic())

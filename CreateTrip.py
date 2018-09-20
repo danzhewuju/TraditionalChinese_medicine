@@ -254,7 +254,7 @@ def run():
     return True
 
 
-run()
+# run()
 #初步的数据预处理过程
 # write_class_tri()
 # write_class_reason()
